@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "835379440686",
+    "firebase_url": "https://juniorapp-3bd1e.firebaseio.com",
+    "project_id": "juniorapp-3bd1e",
+    "storage_bucket": "juniorapp-3bd1e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835379440686:android:be25756d0061b679d983bf",
+        "android_client_info": {
+          "package_name": "com.JuniorApp.Unity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835379440686-nr6ieiehgnde1vide40va6s7odstb0ek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqtgFBqznAvysT-rOU1y9qeLmdm1zXteE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835379440686-nr6ieiehgnde1vide40va6s7odstb0ek.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "835379440686-s5sd5e15dltmh61104inom648a2g60ti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.JuniorApp.Unity"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
