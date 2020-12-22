@@ -10,5 +10,6 @@ public class UISound : MonoBehaviour
     public void PlaySound()
     {
         audioSource.PlayOneShot(clickSfx);
+        Debug.Log("Button pressed");
     }
 }
