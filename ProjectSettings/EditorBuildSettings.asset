@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LandingScene/LandingScene.unity
     guid: 5e5edc4b5e925244bbf26f7107bf16b0
+  - enabled: 1
+    path: Assets/Others/VideoPlayerControl/demo2.unity
+    guid: 34ec9b7ce13b13d42b2753e7261f886d
   m_configObjects: {}
