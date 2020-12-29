@@ -37,7 +37,7 @@ public class ZoomIn : MonoBehaviour
                     Debug.Log(x);
                     yield return new WaitForEndOfFrame();
                 }
-                SceneManager.LoadScene(1);
+                NextScene(1);
                 Debug.LogWarning("Zomm end");
             }
           
@@ -47,6 +47,10 @@ public class ZoomIn : MonoBehaviour
         
     }
 
+    public void NextScene(int i)
+    {
+        SceneManager.LoadScene(i);
+    }
     public void Zoom()
     {
         StartCoroutine(startZoom());
