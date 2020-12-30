@@ -105,7 +105,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5761027950002029001}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -201,7 +201,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StringCheck, Assembly-CSharp
-        m_MethodName: CheckPassword
+        m_MethodName: Result
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -213,7 +213,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StringCheck, Assembly-CSharp
-        m_MethodName: Result
+        m_MethodName: CheckPassword
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

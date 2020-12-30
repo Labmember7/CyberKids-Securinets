@@ -13,23 +13,23 @@ public class StringCheck : MonoBehaviour
     [SerializeField]
     public List<GameObject> characters;
     [SerializeField]
-    public List<string> Passwords;
+    public string wordToGuess;
     public bool stringFull = false;
-    public string password="";
+    public string inputWord="";
 
     public UnityEvent OnSuccess;
     public UnityEvent OnFail;
     // Update is called once per frame
-  public void CheckPassword()
+  public void CheckWord()
     {
-        password = "";
+        inputWord = "";
 
         foreach (GameObject character in characters)
         {
-            password+= character.GetComponent<InputField>().text;
+            inputWord += character.GetComponent<InputField>().text;
         }
         
-        if (password.Length < characters.Count)
+        if (inputWord.Length < characters.Count)
         {
             stringFull = false;
         }
@@ -42,8 +42,8 @@ public class StringCheck : MonoBehaviour
 
     public void Result()
     {
-        Debug.Log(Passwords[0]); Debug.Log(password);
-        if (stringFull == true && password == Passwords[0])
+        Debug.Log(wordToGuess); Debug.Log(inputWord);
+        if (stringFull == true && inputWord == wordToGuess)
         {
             OnSuccess.Invoke();
         }
