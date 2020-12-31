@@ -66,7 +66,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f4c99a340a6e6504aa6e992b7a253612, type: 3}
+    m_Font: {fileID: 12800000, guid: 585188cdc4600544eb408bee749e4b3a, type: 3}
     m_FontSize: 45
     m_FontStyle: 0
     m_BestFit: 0
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 5761027950002029002}
   - component: {fileID: 5761027950002029003}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: CheckButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StringCheck, Assembly-CSharp
-        m_MethodName: Result
+        m_MethodName: CheckWord
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -213,7 +213,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StringCheck, Assembly-CSharp
-        m_MethodName: CheckPassword
+        m_MethodName: Result
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
