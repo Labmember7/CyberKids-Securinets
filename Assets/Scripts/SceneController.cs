@@ -4,9 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ButtonController : MonoBehaviour
+public class SceneController : MonoBehaviour
 {
-   public void EmitParticles(GameObject particles)
+    [SerializeField]
+    public ScreenOrientation screenOrientation;
+    void Start()
+    {
+        Screen.orientation = screenOrientation;
+    }
+    public void EmitParticles(GameObject particles)
     {
 
         StartCoroutine(EmitForSeconds(particles));
@@ -26,5 +32,10 @@ public class ButtonController : MonoBehaviour
     public void NextScene()
     {
         SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex)+1);
+    }
+    public void StartScene()
+    {
+        SceneManager.LoadScene(0);
+
     }
 }
