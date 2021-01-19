@@ -23,9 +23,6 @@ public class AvatarManager : MonoBehaviour {
 	public GameObject panel;
 	// Use this for initialization
 	void Start () {
-		//cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-		//RandomizeCharacter();
-		//SetAvatar();
 
 		//Wait For Avatar Data from server
 
@@ -38,13 +35,7 @@ public class AvatarManager : MonoBehaviour {
 		iFace = Random.Range(0, face.Length);
 		iHair = Random.Range(0, hair.Length);
 		iKit = Random.Range(0, kit.Length);
-
-		cbody.sprite = body[iBody];
-		cface.sprite = face[iFace];
-		chair.sprite = hair[iHair];
-		ckit.sprite = kit[iKit];
-		panel.GetComponent<RawImage>().color = background[iBgColor];
-		
+		UpdateAvatar();
 	}
 	
     public void SetAvatar()
@@ -56,7 +47,22 @@ public class AvatarManager : MonoBehaviour {
 		avatar.kit = iKit.ToString();
 	}
 
-	public void GetAvatar()
+	public void SetAvatar(Avatar avatar)
+    {
+		this.avatar = avatar;
+		GetAvatar();
+    }
+    public void UpdateAvatar()
+    {
+		chair.sprite = hair[iHair];
+		cbody.sprite = body[iBody];
+		cface.sprite = face[iFace];
+		ckit.sprite = kit[iKit];
+		panel.GetComponent<RawImage>().color = background[iBgColor];
+	}
+
+	//Updates the parameters of the avatar then shows the changes
+    public void GetAvatar()
 	{
 		iBgColor =int.Parse(avatar.bgColor);
 		iFace =int.Parse(avatar.face);
@@ -64,11 +70,7 @@ public class AvatarManager : MonoBehaviour {
 		iBody =int.Parse(avatar.body);
 		iKit = int.Parse(avatar.kit);
 
-		chair.sprite = hair[iHair];
-		cbody.sprite = body[iBody];
-		cface.sprite = face[iFace];
-		ckit.sprite = kit[iKit];
-		panel.GetComponent<RawImage>().color = background[iBgColor];
+		UpdateAvatar();
 	}
 
 

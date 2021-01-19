@@ -33,6 +33,10 @@ public class SceneController : MonoBehaviour
     {
         SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex)+1);
     }
+    public void NextScene(int sceneNum)
+    {
+        SceneManager.LoadScene(sceneNum);
+    }
     public void StartScene()
     {
         SceneManager.LoadScene(0);

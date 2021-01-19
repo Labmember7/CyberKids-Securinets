@@ -7,40 +7,97 @@ using PlayFab.ClientModels;
 
 public class PlayfabManager : MonoBehaviour
 {
-    public Avatar avatar;
+    public Avatar avatar =new Avatar();
     public bool responseReceived = false;
     public GameObject avatarObject;
     public GameObject loadingPanel;
     public GameObject errorPanel;
-    public GameObject username;
 
+    [Header("Login UI Components")]
+    public Button registerButton;
+    public Button loginButton;
+    public Button close;
+    public Text message;
+    public InputField username;
+    public InputField email;
+    public InputField password;
+
+    [Header("UI Canvas")]
+    public GameObject LoginUI;
+    public GameObject ProfileUI;
+    public GameObject backgroundImage;
+    public GameObject homeScreen;
     // Start is called before the first frame update
     void Start()
     {
-        Login();
 
-        //Reference the avatar data
-        avatar = avatarObject.GetComponent<AvatarManager>().avatar;
+    }
+
+    #region Authentification
+    public void Register()
+    {
+        var request = new RegisterPlayFabUserRequest
+        {
+            Username = username.text,
+            Email = email.text,
+            Password = password.text
+
+        };
+        PlayFabClientAPI.RegisterPlayFabUser(request, OnRegisterSuccess, OnRegisterFail);
+        //Loading Screen
+        StartCoroutine(WaitForResponse());
+
+    }
+    void OnRegisterSuccess(RegisterPlayFabUserResult result)
+    {
+        message.text = "Register Successful";
+        message.color = Color.green;
+        message.gameObject.SetActive(true);
+        username.gameObject.SetActive(false);
+        loginButton.gameObject.SetActive(true);
+        registerButton.gameObject.SetActive(false);
+
+        responseReceived = true;
+    }
+    void OnRegisterFail(PlayFabError error)
+    {
+        message.text = error.ErrorMessage;
+        message.gameObject.SetActive(true);
+        responseReceived = true;
     }
     public void Login()
     {
-        var request = new LoginWithCustomIDRequest
+        var request = new LoginWithEmailAddressRequest
         {
-            CustomId = SystemInfo.deviceUniqueIdentifier,
-            CreateAccount = true
+            Email = email.text,
+            Password = password.text,
+            
         };
-        PlayFabClientAPI.LoginWithCustomID(request, OnSuccess, OnFailure);
+        PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFail);
+        //Loading Screen
         StartCoroutine(WaitForResponse());
 
 
     }
-    void OnSuccess(LoginResult result)
+
+    void OnLoginSuccess(LoginResult result)
     {
-        Debug.Log("Successful Login "+ result.PlayFabId);
+        //Transition to Profile :
+        LoginUI.SetActive(false);
+        backgroundImage.SetActive(false);
+        ProfileUI.SetActive(true);
+        //Recover Avatar if the user have created one
         GetAvatar();
-        //responseReceived = true;
 
     }
+    void OnLoginFail(PlayFabError error)
+    {
+        message.text = error.ErrorMessage;
+        message.gameObject.SetActive(true);
+        responseReceived = true;
+
+    }
+
     void OnFailure(PlayFabError error)
     {
         Debug.Log("Error while loggin in Check network");
@@ -50,7 +107,7 @@ public class PlayfabManager : MonoBehaviour
         errorPanel.SetActive(true);
 
     }
-
+    #endregion
     public void SendLeaderboard(int score)
     {
         var request = new UpdatePlayerStatisticsRequest
@@ -102,34 +159,28 @@ public class PlayfabManager : MonoBehaviour
 
     void OnDataReceived(GetUserDataResult result)
     {
-        Debug.Log("Reveived User Data");
-        if(result.Data != null && result.Data["username"].Value!=null)
+        Debug.Log("Reveived User Data");            
+        if(result.Data != null && result.Data.ContainsKey("bgColor"))
         {
             avatar.bgColor = result.Data["bgColor"].Value;
             avatar.hair = result.Data["hair"].Value;
             avatar.face = result.Data["face"].Value;
             avatar.body = result.Data["body"].Value;
             avatar.kit = result.Data["kit"].Value;
-            avatarObject.GetComponent<AvatarManager>().avatar = avatar ;
-            avatarObject.GetComponent<AvatarManager>().GetAvatar() ;
-            username.GetComponent<InputField>().text = result.Data["username"].Value;
-            /*Debug.LogWarning(avatarObject.GetComponent<AvatarManager>().avatar.bgColor);
-            Debug.LogWarning(avatar.hair);
-            Debug.LogWarning(avatar.face);
-            Debug.LogWarning(avatar.body);
-            Debug.LogWarning(avatar.kit);*/
+            avatarObject.GetComponent<AvatarManager>().SetAvatar(avatar) ;
+            homeScreen.SetActive(true);
+            responseReceived = true;
+
         }
         else
         {
             SetAvatar();
         }
-        responseReceived = true;
     }
 
 
    public void SetAvatar()
     {
-        avatar.username = username.GetComponent<InputField>().text;
         var request = new UpdateUserDataRequest
         {
             Data = new Dictionary<string, string>
@@ -139,32 +190,31 @@ public class PlayfabManager : MonoBehaviour
                 { "body",avatar.body },
                 { "kit",avatar.kit },
                 { "bgColor",avatar.bgColor },
-                { "username",avatar.username }
-
             }
         };
         PlayFabClientAPI.UpdateUserData(request, OnDataSent, OnFailure);
         StartCoroutine(WaitForResponse());
 
     }
+   
+    void OnDataSent(UpdateUserDataResult result)
+    {
+        Debug.Log("Successful User Data Sent!");
+        GetAvatar();
+    }
     IEnumerator WaitForResponse()
     {
         loadingPanel.SetActive(true);
-        
+
         while (!responseReceived)
         {
-            //Debug.Log(Time.time);
             yield return null;
         }
         responseReceived = false;
         loadingPanel.SetActive(false);
 
     }
-    void OnDataSent(UpdateUserDataResult result)
-    {
-        Debug.Log("Successful User Data Sent!");
-        responseReceived = true;
-    } 
+
 }
 public class Avatar
 {
@@ -172,7 +222,5 @@ public class Avatar
     public string hair="0";
     public string body="0";
     public string kit="0";
-    public string bgColor="0";
-    public string username="Username...";
-    
+    public string bgColor = "0";    
 }

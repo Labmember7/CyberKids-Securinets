@@ -37,7 +37,7 @@ public class ZoomIn : MonoBehaviour
                     Debug.Log(x);
                     yield return new WaitForEndOfFrame();
                 }
-                NextScene(1);
+                SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex) + 1);
                 Debug.LogWarning("Zomm end");
             }
           
