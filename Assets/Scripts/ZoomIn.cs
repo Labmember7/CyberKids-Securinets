@@ -8,7 +8,6 @@ public class ZoomIn : MonoBehaviour
     float t =0;
     float x = 0f;
     public float timeBeforeZoom = 0.5f;
-    bool clicked = false;
     static Vector2 dest = new Vector2 (-5.14f,-2.02f);
     Camera cam;
     // Start is called before the first frame update
@@ -19,11 +18,10 @@ public class ZoomIn : MonoBehaviour
         {
             x = cam.fieldOfView;
         }
+        
     }
     IEnumerator startZoom()
     {
-        if (clicked)
-        {
             if (x > 1f)
             {
                 yield return new WaitForSeconds(timeBeforeZoom);
@@ -40,8 +38,6 @@ public class ZoomIn : MonoBehaviour
                 SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex) + 1);
                 Debug.LogWarning("Zomm end");
             }
-          
-        }
         yield return null;
 
         
@@ -54,7 +50,6 @@ public class ZoomIn : MonoBehaviour
     public void Zoom()
     {
         StartCoroutine(startZoom());
-        clicked = true;
     }
 
 

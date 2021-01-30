@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 using System.Collections.Generic;
 
 namespace Lean.Transition.Method
@@ -32,6 +33,8 @@ namespace Lean.Transition.Method
 		{
 			[Range(0.0f, 1.0f)]
 			public float Volume = 1.0f;
+			[SerializeField]
+			public AudioMixerGroup mixerOutput;
 
 			public override void UpdateWithTarget(float progress)
 			{
@@ -48,9 +51,9 @@ namespace Lean.Transition.Method
 
 					audioSource.clip   = Target;
 					audioSource.volume = Volume;
-
+					audioSource.outputAudioMixerGroup = mixerOutput;
 					audioSource.Play();
-
+					
 					Destroy(gameObject, Target.length);
 				}
 			}

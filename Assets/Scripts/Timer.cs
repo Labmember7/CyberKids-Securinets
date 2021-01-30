@@ -11,10 +11,18 @@ public class Timer : MonoBehaviour
     public string label = "Temps Restant : ";
     public bool pause = false;
     public UnityEvent OnElapsed;
+    private float resetTimeTemp =120;
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         StartCoroutine(UpdateTime());
+        timeRemaining = resetTimeTemp;
+        Debug.Log("QUizzUI started");
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     public void SwitchPause()
@@ -50,6 +58,13 @@ public class Timer : MonoBehaviour
     {
         TimeSpan t = TimeSpan.FromSeconds(Mathf.RoundToInt(timeRemaining));
         return String.Format("{0:D2}:{1:D2}", t.Minutes, t.Seconds);
+    }
+    public void ResetTime()
+    {
+        pause = false;
+        timeRemaining = resetTimeTemp;
+        StopAllCoroutines();
+        StartCoroutine(UpdateTime());
     }
 
 }

@@ -33,7 +33,7 @@ public class KingdomButton : MonoBehaviour, ISelectHandler, IDeselectHandler, IS
         rect.DOColor(Color.white, .1f);
         text.DOColor(textColorWhenSelected, .1f);
         circle.DOColor(Color.red, .1f);
-
+        Debug.Log(eventData.selectedObject.GetComponentInChildren<Text>().text);
         rect.transform.DOComplete();
         rect.transform.DOPunchScale(Vector3.one / 3, .2f, 20, 1);
     }

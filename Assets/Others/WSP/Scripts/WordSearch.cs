@@ -31,8 +31,13 @@ public class WordSearch : MonoBehaviour {
     private Ray ray;
     private RaycastHit hit;
     private int mark = 0;
-
+    private string allThewords = "";
+    public GameObject TextAreaForWords;
     private static WordSearch instance;
+    public Camera localCamera;
+    public AudioSource successSFX;
+    public UnityEvent OnComplete;
+
     public static WordSearch Instance {
         get {
 			return instance;
@@ -41,6 +46,9 @@ public class WordSearch : MonoBehaviour {
 
 	void Awake() {
         instance = this;
+       // UnityEngine.Random.InitState(7);
+
+
     }
 
     void Start() {
@@ -49,7 +57,10 @@ public class WordSearch : MonoBehaviour {
 
         if (useWordpool) {
             words = wordpool.text.Split(';');
-        } else {
+           /* Debug.Log(words[0]);
+            Debug.Log(words[words.Length - 1] + " " + words.Length);*/
+        } 
+        else {
             maxWordCount = words.Length;
         }
 
@@ -58,20 +69,34 @@ public class WordSearch : MonoBehaviour {
         }
 
         Mix(words);
-        Mathf.Clamp(maxWordLetters, 0, gridY < gridX ? gridX : gridY);
-       
-        while (findLength.Count < maxWordCount + 1) {
-            if (words[count].Length <= maxWordLetters) {
+       /* Debug.Log(words[0]);
+        Debug.Log(words[words.Length - 1] + " " + words.Length);*/
+        maxWordLetters = Mathf.Clamp(maxWordLetters, 0, gridY < gridX ? gridX : gridY);
+       /* Debug.Log("maxWordLetters "+ maxWordLetters);
+        Debug.Log("Clamp "+ (gridY < gridX ? gridX : gridY));*/
+
+        //filling the findLength array with words having a length 
+        //less than the max length from the worpool 
+        while (findLength.Count <= maxWordCount || count < words.Length-1) 
+        {
+            if (words[count].Length <= maxWordLetters) 
+            {
                 findLength.Add(words[count]);
             } 
 			count++;
         }
 
+       /* Debug.Log("findLength Length " + findLength.Count);
+        Debug.Log("maxWordCount " + maxWordCount);*/
+
+        //Adding non duplicate words from findLength array to "word" Dictionary
         for (int i = 0; i < maxWordCount; i++) {
             if (!word.ContainsKey(findLength[i].ToUpper()) && !word.ContainsKey(findLength[i])) {
                     word.Add(findLength[i], false);
             }
         }
+      //  Debug.Log("Word Dictionary " + word.Count);
+
 
         Mathf.Clamp01(sensitivity);
         matrix = new string[gridX, gridY];
@@ -98,8 +123,27 @@ public class WordSearch : MonoBehaviour {
         time = Time.time;
         ShowOnUI();
     }
+    public void Reset()
+    {
+        identified = 0;
+        foreach (Letters l in GameObject.FindObjectsOfType<Letters>())
+        {
+            if (l.identified)
+            {
+                l.identified = false;
+            }
+        }
+        Dictionary<string, bool> temp = new Dictionary< string, bool>();
+        foreach (KeyValuePair<string, bool> p in insertedWords)
+        {
+            temp.Add(p.Key, false);
+        }
+        insertedWords = null;
+        insertedWords = temp;
+        temp = null;
+    }
     private void CenterBG() {
-        backgroundObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, (Screen.height / 2) + 50, 200));
+        backgroundObject.transform.position = localCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, (Screen.height / 2) + 50, 200));
 	}
 
     private void InstantiateBG() {
@@ -116,34 +160,53 @@ public class WordSearch : MonoBehaviour {
 		}
         backgroundObject.transform.eulerAngles = new Vector3(180, 0, 0);
         backgroundObject.transform.localScale = new Vector3(((tile.transform.localScale.x * spacing) * gridX), 1, ((tile.transform.localScale.x * spacing) * gridY));
-   }
-
-    void Update() {
-		if (Input.GetMouseButton (0)) {
-			ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			if (Physics.Raycast (ray, out hit)) {
-				current = hit.transform.gameObject;
-                ready = true;
-            }
-            else
-            {
-                ready = false;
-
-            }
-        }
-		if (Input.GetMouseButtonUp (0)) {
-			ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			if (Physics.Raycast (ray, out hit)) {
-				current = hit.transform.gameObject;
-			}
-			Verify();
-		}
     }
 
-    private void Verify() {
+    void Update() {
+        correct = false;
+            if (Input.GetMouseButton(0))
+            {
+                ray = localCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit))
+                {
+                    current = hit.transform.gameObject;
+                    ready = true;
+                }
+                else
+                {
+                    ready = false;
+
+                }
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                ray = localCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit))
+                {
+                    current = hit.transform.gameObject;
+                }
+                Verify();
+            }
+
+
+        if (insertedWords.Count == identified)
+        {
+            OnComplete.Invoke();
+            identified = 0;
+            foreach(Letters g in FindObjectsOfType<Letters>())
+            {
+                g.identified = false;
+            }
+        }
+		
+    }
+
+    private void Verify() 
+    {
         if (!correct) {
             foreach (KeyValuePair<string, bool> p in insertedWords) {
-                if (selectedString.ToLower() == p.Key.Trim().ToLower()) {
+
+                    if (selectedString.ToLower() == p.Key.Trim().ToLower()) {
                     foreach (GameObject g in selected) {
                         g.GetComponent<Letters>().identified = true;
                     }
@@ -158,18 +221,21 @@ public class WordSearch : MonoBehaviour {
                     }
                 }
             }
-        }
 
+        }
         if (correct) {
             insertedWords.Remove(selectedString);
             insertedWords.Remove(Reverse(selectedString));
 
 			if (word.ContainsKey (selectedString)) {
-				insertedWords.Add (selectedString, true);
-			} else if (word.ContainsKey (Reverse (selectedString))) {
+                insertedWords.Add (selectedString, true);
+                identified++;
+                successSFX.PlayOneShot(successSFX.clip);
+
+            }
+            else if (word.ContainsKey (Reverse (selectedString))) {
 				insertedWords.Add (Reverse (selectedString), true);
 			}
-            identified++;
         }
         ready = false;
         selected.Clear();
@@ -274,8 +340,7 @@ public class WordSearch : MonoBehaviour {
         }
         return reversed;
     }
-    private string allThewords="";
-    public GameObject TextAreaForWords;
+
     private void ShowOnUI()
     {
         int i = 0;
@@ -283,49 +348,10 @@ public class WordSearch : MonoBehaviour {
         {
             i++;
             allThewords = allThewords + i + "-" + p.Key + "\n";
+           // Debug.Log("p.Value " +p.Value + " et p.Key : " + p.Key);
         }
         TextAreaForWords.GetComponent<UnityEngine.UI.Text>().text += allThewords; 
     }
-    public UnityEvent OnComplete;
 
-    public void LateUpdate()
-    {
-        //Debug.Log(selected.Count);
-       /* if (selected.Count == insertedWords.Count)
-        {
-         OnComplete.Invoke();
-        }*/
-
-    }
-    /*void OnGUI() {
-          GUILayout.BeginVertical();
-              GUILayout.BeginHorizontal();
-              GUILayout.Label("   Timer: ");
-              GUILayout.Label(TimeElapsed());
-              GUILayout.EndHorizontal();
-
-          foreach (KeyValuePair<string, bool> p in insertedWords) {
-              GUILayout.BeginHorizontal();
-              GUILayout.Label("   " + p.Key);
-              if (p.Value) {
-                  GUILayout.Label("*");
-              }
-              GUILayout.EndHorizontal();
-          }
-          GUILayout.EndVertical();
-      }/*
-
-          while (findLength.Count < maxWordCount + 1) {
-              Debug.LogWarning("findLength.Count" + findLength.Count);
-              Debug.LogWarning("maxWordCount" + maxWordCount);
-              Debug.LogWarning("maxWordLetters " + maxWordLetters);
-              Debug.LogWarning("count " + count);
-              Debug.LogWarning("words.length  " + words.Length);
-
-              if (words[count].Length < maxWordCount) {
-                  findLength.Add(words[count]);
-              } 
-              count++;
-          }
-     */
+ 
 }

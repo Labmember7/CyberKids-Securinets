@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 114119055918382018}
   - component: {fileID: 129186523742860595}
   - component: {fileID: -2768929997075547318}
-  - component: {fileID: 3035089167359551972}
-  - component: {fileID: -2488752868966681944}
   m_Layer: 5
   m_Name: KingdomButton
   m_TagString: Untagged
@@ -84,21 +82,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3035089167359551972}
-        m_TargetAssemblyTypeName: UISound, Assembly-CSharp
-        m_MethodName: PlaySound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: -2488752868966681944}
-        m_TargetAssemblyTypeName: ZoomIn, Assembly-CSharp
-        m_MethodName: Zoom
+      - m_Target: {fileID: -2768929997075547318}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -134,10 +120,10 @@ AudioSource:
   m_GameObject: {fileID: 1067111836184186}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.106
+  OutputAudioMixerGroup: {fileID: 2760770933619363191, guid: 488ed43a4cf39d4439f7f3e3c3863f0d, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -221,33 +207,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3035089167359551972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067111836184186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b32e89be1fa8c214284f2aa783004d49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: -2768929997075547318}
-  clickSfx: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
---- !u!114 &-2488752868966681944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067111836184186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47f9b786deb2b6d4999752840d0b795d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeBeforeZoom: 0.5
 --- !u!1 &1393165286045106
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,7 +273,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
+    m_Font: {fileID: 12800000, guid: 61178ac21017ee841be4886c0d93358c, type: 3}
     m_FontSize: 65
     m_FontStyle: 0
     m_BestFit: 1

@@ -16,11 +16,11 @@ public class PlayfabManager : MonoBehaviour
     [Header("Login UI Components")]
     public Button registerButton;
     public Button loginButton;
-    public Button close;
     public Text message;
     public InputField username;
     public InputField email;
     public InputField password;
+    public Text score;
 
     [Header("UI Canvas")]
     public GameObject LoginUI;
@@ -28,13 +28,28 @@ public class PlayfabManager : MonoBehaviour
     public GameObject backgroundImage;
     public GameObject homeScreen;
     // Start is called before the first frame update
+
     void Start()
     {
-
+        if (PlayerPrefs.HasKey("email") && PlayerPrefs.HasKey("password"))
+        {
+            email.text = PlayerPrefs.GetString("email");
+            password.text = PlayerPrefs.GetString("password");
+            if (email.text != "" && password.text != "")
+            {
+                Login();
+            }
+        }
+    }
+    void RememberMe()
+    {
+        Debug.Log("User Credentials Saved");
+        PlayerPrefs.SetString("email", email.text);
+        PlayerPrefs.SetString("password", password.text);
     }
 
-    #region Authentification
-    public void Register()
+        #region Authentification
+        public void Register()
     {
         var request = new RegisterPlayFabUserRequest
         {
@@ -86,6 +101,9 @@ public class PlayfabManager : MonoBehaviour
         LoginUI.SetActive(false);
         backgroundImage.SetActive(false);
         ProfileUI.SetActive(true);
+        GetPlayerInfo();
+        //Remember me 
+        RememberMe();
         //Recover Avatar if the user have created one
         GetAvatar();
 
@@ -214,6 +232,49 @@ public class PlayfabManager : MonoBehaviour
         loadingPanel.SetActive(false);
 
     }
+
+    public void Logout()
+    {
+        PlayFabDataAPI.ForgetAllCredentials();
+    }
+    public void SetPlayerInfo()
+    {
+        //
+    }
+
+    public void GetPlayerInfo()
+    {
+        var request = new GetAccountInfoRequest();
+        PlayFabClientAPI.GetAccountInfo(request, success, OnFailure);
+        PlayFabClientAPI.GetPlayerStatistics(new GetPlayerStatisticsRequest()
+        {
+            StatisticNames = new List<string> { "Score"// <- My Leaderboard name
+}
+        }, result => {
+            Debug.Log("Complete " + result.ToString());
+            try
+            {
+                if (result.Statistics[0] != null)
+                    Debug.Log("Score = " + result.Statistics[0].Value);
+                score.text = result.Statistics[0].Value + "";
+            }
+            catch(PlayFabException e)
+            {
+                Debug.Log(e);
+            }
+           
+        },
+        error => Debug.Log(error.GenerateErrorReport()));
+
+    }
+    
+    public void success(GetAccountInfoResult result)
+    {
+        Debug.Log(result.AccountInfo.Username);
+        username.text = result.AccountInfo.Username;
+
+    }
+
 
 }
 public class Avatar

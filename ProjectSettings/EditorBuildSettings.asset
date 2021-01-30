@@ -6,21 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/LandingScene/LoginScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Scenes/LandingScene/LandingScene.unity
     guid: 5e5edc4b5e925244bbf26f7107bf16b0
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Chapter1/Chapter1Vod.unity
     guid: 880ea24ec46de3146bcba9eac064a75f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Chapter1/WordSearch.unity
     guid: 80d5629c787ad984391757deb8970be4
-  - enabled: 1
-    path: Assets/Scenes/Chapter1/Quizz1.unity
-    guid: d973ef4726520574f85df7a4a7bc92eb
-  - enabled: 0
-    path: Assets/Scenes/Tests/LevelTest.unity
-    guid: 6d6ffd585253053469f49c7d737db7fd
   m_configObjects: {}
