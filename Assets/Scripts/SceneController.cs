@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
@@ -15,6 +16,8 @@ public class SceneController : MonoBehaviour
     Camera cam;
     void Start()
     {
+        var fooGroup = Resources.FindObjectsOfTypeAll<Text>();
+        Debug.Log(fooGroup.Length);
         Screen.orientation = screenOrientation;
         cam = Camera.main;
         if (cam)

@@ -12,17 +12,23 @@ public class Timer : MonoBehaviour
     public bool pause = false;
     public UnityEvent OnElapsed;
     private float resetTimeTemp =120;
+    public GameObject menu;
     // Start is called before the first frame update
     void OnEnable()
     {
         StartCoroutine(UpdateTime());
         timeRemaining = resetTimeTemp;
         Debug.Log("QUizzUI started");
+        if (menu.activeInHierarchy)
+        {
+            gameObject.GetComponent<AudioSource>().Stop();
+        }
     }
 
     void OnDisable()
     {
         StopAllCoroutines();
+
     }
 
     public void SwitchPause()
