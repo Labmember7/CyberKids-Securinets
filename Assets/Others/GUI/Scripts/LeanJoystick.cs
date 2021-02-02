@@ -157,7 +157,7 @@ namespace Lean.Gui
 			if (handle != null)
 			{
 				var anchoredPosition = handle.anchoredPosition;
-				var factor           = LeanHelper.DampenFactor(dampening, Time.deltaTime);
+				var factor           = LeanHelper.GetDampenFactor(dampening, Time.deltaTime);
 
 				if (snapWhileHeld == true && pointer != null)
 				{

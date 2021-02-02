@@ -13,6 +13,7 @@ public class Timer : MonoBehaviour
     public UnityEvent OnElapsed;
     private float resetTimeTemp =120;
     public GameObject menu;
+    public Text resultMessage;
     // Start is called before the first frame update
     void OnEnable()
     {
@@ -45,20 +46,33 @@ public class Timer : MonoBehaviour
             {
                 yield return new WaitForSecondsRealtime(1);
                 timeRemaining = timeRemaining - 1;
-                gameObject.GetComponent<Text>().text = label + TimeElapsed();
+                UpdateText();
             }
             else
             {
                 yield return new WaitUntil(()=>pause==true);
-
             }
 
         }
         if (OnElapsed.GetPersistentEventCount() > 0)
         {
             OnElapsed.Invoke();
+
+            resultMessage.text = Lean.Localization.LeanLocalization.GetTranslationText("Lose");
+
         }
-        Debug.Log(OnElapsed.GetPersistentEventCount());
+       // Debug.Log(OnElapsed.GetPersistentEventCount());
+    }
+    public void UpdateText()
+    {
+        if (Lean.Localization.LeanLocalization.currentLanguage.ToLower().Contains("ar"))
+        {
+            gameObject.GetComponent<Text>().text = TimeElapsed() + Lean.Localization.LeanLocalization.GetTranslationText(label);
+        }
+        else
+        {
+            gameObject.GetComponent<Text>().text = label + TimeElapsed();
+        }
     }
     private string TimeElapsed()
     {

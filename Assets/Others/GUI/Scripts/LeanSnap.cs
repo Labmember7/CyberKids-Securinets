@@ -99,7 +99,7 @@ namespace Lean.Gui
 			if (horizontal == true)
 			{
 				var target = position.x * intervalX + horizontalOffset;
-				var factor = LeanHelper.DampenFactor(horizontalSpeed, Time.deltaTime);
+				var factor = LeanHelper.GetDampenFactor(horizontalSpeed, Time.deltaTime);
 
 				anchoredPosition.x = Mathf.Lerp(anchoredPosition.x, target, factor);
 			}
@@ -107,7 +107,7 @@ namespace Lean.Gui
 			if (vertical == true)
 			{
 				var target = position.y * intervalY + verticalOffset;
-				var factor = LeanHelper.DampenFactor(verticalSpeed, Time.deltaTime);
+				var factor = LeanHelper.GetDampenFactor(verticalSpeed, Time.deltaTime);
 
 				anchoredPosition.y = Mathf.Lerp(anchoredPosition.y, target, factor);
 			}

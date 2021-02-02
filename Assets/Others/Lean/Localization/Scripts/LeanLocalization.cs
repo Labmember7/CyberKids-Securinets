@@ -53,11 +53,12 @@ namespace Lean.Localization
 		public static event System.Action OnLocalizationChanged;
 
 		/// <summary>The currently set language.</summary>
-		private static string currentLanguage;
+		public static string currentLanguage;
 
 		private static bool pendingUpdates;
 
 		private static Dictionary<string, LeanTranslation> tempTranslations = new Dictionary<string, LeanTranslation>();
+
 
 		/// <summary>This stores all languages and their aliases managed by this LeanLocalization instance.</summary>
 		public List<LeanLanguage> Languages

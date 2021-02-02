@@ -7,7 +7,7 @@ using PlayFab.ClientModels;
 
 public class PlayfabManager : MonoBehaviour
 {
-    public Avatar avatar =new Avatar();
+    public Avatar avatar = new Avatar();
     public bool responseReceived = false;
     public GameObject avatarObject;
     public GameObject loadingPanel;
@@ -18,6 +18,7 @@ public class PlayfabManager : MonoBehaviour
     public Button loginButton;
     public Text message;
     public InputField username;
+    public InputField usernameRegister;
     public InputField email;
     public InputField password;
     public Text score;
@@ -27,10 +28,17 @@ public class PlayfabManager : MonoBehaviour
     public GameObject ProfileUI;
     public GameObject backgroundImage;
     public GameObject homeScreen;
+
+    [Header("LeaderBoard")]
+    public GameObject playerRankPrefab;
+    public Transform allRanksHolder;
     // Start is called before the first frame update
 
     void Start()
     {
+        //Init PlayerRank text Color 
+        ColorUtility.TryParseHtmlString("#9800FF", out color);
+
         if (PlayerPrefs.HasKey("email") && PlayerPrefs.HasKey("password"))
         {
             email.text = PlayerPrefs.GetString("email");
@@ -43,17 +51,17 @@ public class PlayfabManager : MonoBehaviour
     }
     void RememberMe()
     {
-        Debug.Log("User Credentials Saved");
+        //Debug.Log("User Credentials Saved");
         PlayerPrefs.SetString("email", email.text);
         PlayerPrefs.SetString("password", password.text);
     }
 
-        #region Authentification
-        public void Register()
+    #region Authentification
+    public void Register()
     {
         var request = new RegisterPlayFabUserRequest
         {
-            Username = username.text,
+            Username = usernameRegister.text,
             Email = email.text,
             Password = password.text
 
@@ -68,11 +76,11 @@ public class PlayfabManager : MonoBehaviour
         message.text = "Register Successful";
         message.color = Color.green;
         message.gameObject.SetActive(true);
-        username.gameObject.SetActive(false);
+        usernameRegister.gameObject.SetActive(false);
         loginButton.gameObject.SetActive(true);
         registerButton.gameObject.SetActive(false);
-
         responseReceived = true;
+        score.text = "0";
     }
     void OnRegisterFail(PlayFabError error)
     {
@@ -86,7 +94,7 @@ public class PlayfabManager : MonoBehaviour
         {
             Email = email.text,
             Password = password.text,
-            
+
         };
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFail);
         //Loading Screen
@@ -149,25 +157,44 @@ public class PlayfabManager : MonoBehaviour
 
     public void GetLeaderboard()
     {
-        var request = new GetLeaderboardRequest{
+        var request = new GetLeaderboardRequest
+        {
             StatisticName = "Score",
-            StartPosition =0,
+            StartPosition = 0,
             MaxResultsCount = 10
         };
         PlayFabClientAPI.GetLeaderboard(request, OnGetLeaderboard, OnFailure);
 
     }
+    Color color = new Color();
 
     void OnGetLeaderboard(GetLeaderboardResult result)
     {
-        Debug.Log("Successful : Leaderboard received");
-        foreach(var item in result.Leaderboard)
-        {
-            Debug.Log(item.Position + " " + item.PlayFabId + " " + item.StatValue);
 
+        foreach (Transform item in allRanksHolder)
+        {
+            Destroy(item.gameObject);
+        }
+        //Debug.Log("Successful : Leaderboard received");
+        foreach (var item in result.Leaderboard)
+        {
+            GameObject newRankObj = Instantiate(playerRankPrefab, allRanksHolder);
+            Text[] texts = newRankObj.GetComponentsInChildren<Text>();
+            texts[0].text = (item.Position + 1).ToString();
+            if(item.Profile.DisplayName == username.text)
+            {
+                texts[0].color = color;
+                texts[1].color = color;
+                texts[2].color = color;
+            }
+            texts[1].text = item.Profile.DisplayName;
+            texts[2].text = item.StatValue.ToString();
+
+            //Debug.Log(item.Position + " " +" Profile : " + item.Profile.DisplayName + " " + item.StatValue);
         }
 
     }
+
     public void GetAvatar()
     {
         PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnDataReceived, OnFailure);
@@ -177,27 +204,28 @@ public class PlayfabManager : MonoBehaviour
 
     void OnDataReceived(GetUserDataResult result)
     {
-        Debug.Log("Reveived User Data");            
-        if(result.Data != null && result.Data.ContainsKey("bgColor"))
+        //Debug.Log("Reveived User Data");            
+        if (result.Data != null && result.Data.ContainsKey("bgColor"))
         {
             avatar.bgColor = result.Data["bgColor"].Value;
             avatar.hair = result.Data["hair"].Value;
             avatar.face = result.Data["face"].Value;
             avatar.body = result.Data["body"].Value;
             avatar.kit = result.Data["kit"].Value;
-            avatarObject.GetComponent<AvatarManager>().SetAvatar(avatar) ;
+            avatarObject.GetComponent<AvatarManager>().SetAvatar(avatar);
             homeScreen.SetActive(true);
             responseReceived = true;
 
         }
         else
         {
+            //Initialise the avatar variables
             SetAvatar();
         }
     }
 
 
-   public void SetAvatar()
+    public void SetAvatar()
     {
         var request = new UpdateUserDataRequest
         {
@@ -214,10 +242,10 @@ public class PlayfabManager : MonoBehaviour
         StartCoroutine(WaitForResponse());
 
     }
-   
+
     void OnDataSent(UpdateUserDataResult result)
     {
-        Debug.Log("Successful User Data Sent!");
+        //Debug.Log("Successful User Data Sent!");
         GetAvatar();
     }
     IEnumerator WaitForResponse()
@@ -237,11 +265,17 @@ public class PlayfabManager : MonoBehaviour
     {
         PlayFabDataAPI.ForgetAllCredentials();
     }
-    public void SetPlayerInfo()
+    public void SetDisplayName()
     {
-        //
-    }
 
+        PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest
+        {
+            DisplayName = username.text
+        }, result =>
+        {
+            //Debug.Log("The player's display name is now: " + result.DisplayName);
+        }, error => Debug.LogError(error.GenerateErrorReport()));
+    }
     public void GetPlayerInfo()
     {
         var request = new GetAccountInfoRequest();
@@ -251,37 +285,55 @@ public class PlayfabManager : MonoBehaviour
             StatisticNames = new List<string> { "Score"// <- My Leaderboard name
 }
         }, result => {
-            Debug.Log("Complete " + result.ToString());
+            /*Debug.Log("Complete " + result.ToString());
+            Debug.Log("result.Statistics.Count " + result.Statistics.Count);*/
             try
             {
-                if (result.Statistics[0] != null)
-                    Debug.Log("Score = " + result.Statistics[0].Value);
-                score.text = result.Statistics[0].Value + "";
+                if (result.Statistics.Count > 0)
+                {
+                    //Debug.Log("Score = " + result.Statistics[0].Value);
+                    score.text = result.Statistics[0].Value + "";
+                    PlayerPrefs.SetInt("score", result.Statistics[0].Value);
+                }
+                else
+                {
+                    SendLeaderboard(0);
+                    PlayerPrefs.SetInt("score", 0);
+                }
             }
-            catch(PlayFabException e)
+            catch (PlayFabException e)
             {
                 Debug.Log(e);
             }
-           
+
         },
         error => Debug.Log(error.GenerateErrorReport()));
 
     }
-    
+
     public void success(GetAccountInfoResult result)
     {
-        Debug.Log(result.AccountInfo.Username);
-        username.text = result.AccountInfo.Username;
+        if (result.AccountInfo.TitleInfo.DisplayName == null)
+        {
+            username.text = result.AccountInfo.Username;
+            //Set The DisplayName to Username
+            SetDisplayName();
+        }
+        else
+        {
+            username.text = result.AccountInfo.TitleInfo.DisplayName;
+        }
 
+        //Debug.Log(result.AccountInfo.TitleInfo.DisplayName + "  "+ this.gameObject.tag);
     }
 
 
 }
 public class Avatar
 {
-    public string face="0";
-    public string hair="0";
-    public string body="0";
-    public string kit="0";
-    public string bgColor = "0";    
+    public string face = "0";
+    public string hair = "0";
+    public string body = "0";
+    public string kit = "0";
+    public string bgColor = "0";
 }

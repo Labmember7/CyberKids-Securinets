@@ -84,7 +84,7 @@ namespace Lean.Gui
 
 		protected virtual void Update()
 		{
-			var factor   = LeanHelper.DampenFactor(dampening, Time.deltaTime);
+			var factor   = LeanHelper.GetDampenFactor(dampening, Time.deltaTime);
 			var position = default(Vector3);
 			var rotation = default(Vector3);
 

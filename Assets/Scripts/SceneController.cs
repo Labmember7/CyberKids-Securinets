@@ -14,16 +14,26 @@ public class SceneController : MonoBehaviour
     public float timeBeforeZoom = 0.5f;
     static Vector2 dest = new Vector2(-5.14f, -2.02f);
     Camera cam;
+    // public Font font;
     void Start()
     {
-        var fooGroup = Resources.FindObjectsOfTypeAll<Text>();
-        Debug.Log(fooGroup.Length);
+        
+      /* foreach(var fooGroup in Resources.FindObjectsOfTypeAll<Text>())
+        {
+            fooGroup.font = font;
+        }*/
         Screen.orientation = screenOrientation;
         cam = Camera.main;
         if (cam)
         {
             x = cam.fieldOfView;
         }
+       
+    }
+    void OnEnable()
+    {
+        if(this.gameObject.tag == "UI")
+        GameObject.FindObjectOfType<PlayfabManager>().GetLeaderboard();
     }
     public void EmitParticles(GameObject particles)
     {

@@ -2,6 +2,7 @@ using UnityEngine; using System;
 using System.Collections; 
 using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine.UI;
 public class WordSearch : MonoBehaviour {
 	// you may customize these variables in the Unity Inspector however you want
     public bool useWordpool; // 'should we use the wordpool?'
@@ -32,10 +33,11 @@ public class WordSearch : MonoBehaviour {
     private RaycastHit hit;
     private int mark = 0;
     private string allThewords = "";
-    public GameObject TextAreaForWords;
+    public Text TextAreaForWords;
     private static WordSearch instance;
     public Camera localCamera;
     public AudioSource successSFX;
+    public Text resultText;
     public UnityEvent OnComplete;
 
     public static WordSearch Instance {
@@ -192,6 +194,7 @@ public class WordSearch : MonoBehaviour {
         if (insertedWords.Count == identified)
         {
             OnComplete.Invoke();
+            resultText.text = Lean.Localization.LeanLocalization.GetTranslationText("Win");
             identified = 0;
             foreach(Letters g in FindObjectsOfType<Letters>())
             {
@@ -350,7 +353,7 @@ public class WordSearch : MonoBehaviour {
             allThewords = allThewords + i + "-" + p.Key + "\n";
            // Debug.Log("p.Value " +p.Value + " et p.Key : " + p.Key);
         }
-        TextAreaForWords.GetComponent<UnityEngine.UI.Text>().text += allThewords; 
+        TextAreaForWords.text += allThewords; 
     }
 
  

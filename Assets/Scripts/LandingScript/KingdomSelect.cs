@@ -29,16 +29,17 @@ public class KingdomSelect : MonoBehaviour {
         foreach (Kingdom k in kingdoms)
         {
             SpawnKingdomPoint(k);
-        }
+        }	
+	}
+    public void LookAtKingdom()
+    {
 
         if (kingdoms.Count > 0)
         {
             LookAtKingdom(kingdoms[0]);
             UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(kingdomButtonsContainer.GetChild(0).gameObject);
         }
-
-		
-	}
+    }
 
     private void SpawnKingdomPoint(Kingdom k)
     {
@@ -55,7 +56,7 @@ public class KingdomSelect : MonoBehaviour {
         Button kingdomButton = Instantiate(kingdomButtonPrefab, kingdomButtonsContainer).GetComponent<Button>();
         kingdomButton.onClick.AddListener(() => LookAtKingdom(kingdom));
 
-        kingdomButton.transform.GetChild(0).GetComponentInChildren<Text>().text = k.name;
+        kingdomButton.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = k.name;
     }
 
     public void LookAtKingdom(Kingdom k)
