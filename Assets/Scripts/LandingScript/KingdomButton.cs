@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.EventSystems;
@@ -21,6 +22,12 @@ public class KingdomButton : MonoBehaviour, ISelectHandler, IDeselectHandler, IS
         text.color = Color.white;
         textNum.color = Color.white;
         circle.color = Color.white;
+    }
+    public void ChoseChapterVideo()
+    {
+        // Debug.Log(int.Parse(textNum.text) - 1);
+        FindObjectOfType<UIManager>().videoPlayer.clip = FindObjectOfType<UIManager>().videoClips[int.Parse(textNum.text) - 1];
+        
     }
     public void FixLangAppearance(string lang)
     {

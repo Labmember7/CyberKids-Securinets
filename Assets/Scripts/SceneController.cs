@@ -2,26 +2,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
     [SerializeField]
-    public ScreenOrientation screenOrientation;
+    private ScreenOrientation screenOrientation ;
     float t = 0;
     float x = 0f;
     public float timeBeforeZoom = 0.5f;
     static Vector2 dest = new Vector2(-5.14f, -2.02f);
     Camera cam;
     // public Font font;
+    void OnEnable()
+    {
+        if (gameObject.tag == "UI")
+            GameObject.FindObjectOfType<PlayfabManager>().GetLeaderboard();
+    }
     void Start()
     {
-        
-      /* foreach(var fooGroup in Resources.FindObjectsOfTypeAll<Text>())
-        {
-            fooGroup.font = font;
-        }*/
+
         Screen.orientation = screenOrientation;
         cam = Camera.main;
         if (cam)
@@ -30,11 +32,12 @@ public class SceneController : MonoBehaviour
         }
        
     }
-    void OnEnable()
-    {
-        if(this.gameObject.tag == "UI")
-        GameObject.FindObjectOfType<PlayfabManager>().GetLeaderboard();
-    }
+
+
+
+
+
+
     public void EmitParticles(GameObject particles)
     {
 
@@ -109,4 +112,9 @@ public class SceneController : MonoBehaviour
 
     }
 
+
 }
+/* foreach(var fooGroup in Resources.FindObjectsOfTypeAll<Text>())
+  {
+      fooGroup.font = font;
+  }*/

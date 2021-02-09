@@ -1,18 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class UIManager : MonoBehaviour
 {
-    void OnEnable()
+    public GameObject VideoPanel;
+    public VideoPlayer videoPlayer;
+    public VideoClip[] videoClips;
+    public GameObject[] quizs;
+
+    public void HideShow()
     {
-        gameObject.SetActive(false);
-        StartCoroutine(Delay());
+          VideoPanel.SetActive(!VideoPanel.activeInHierarchy);
     }
-    IEnumerator Delay()
+    public void QuizHideShow(int i)
     {
-        yield return new WaitForSecondsRealtime(0.2f);
-        gameObject.SetActive(true);
+
+        GameObject quizz = Instantiate(quizs[i]);
+        quizz.SetActive(true);
+
+            Screen.orientation = ScreenOrientation.Portrait;
+        //quizs[i].SetActive(!quizs[i].activeInHierarchy);
     }
+
 }
 
