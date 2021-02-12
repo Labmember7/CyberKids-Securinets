@@ -27,6 +27,7 @@ public class KingdomButton : MonoBehaviour, ISelectHandler, IDeselectHandler, IS
     {
         // Debug.Log(int.Parse(textNum.text) - 1);
         FindObjectOfType<UIManager>().videoPlayer.clip = FindObjectOfType<UIManager>().videoClips[int.Parse(textNum.text) - 1];
+        FindObjectOfType<UIManager>().selectedChapter = int.Parse(textNum.text) - 1;
         
     }
     public void FixLangAppearance(string lang)

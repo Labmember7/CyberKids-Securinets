@@ -9,18 +9,24 @@ public class UIManager : MonoBehaviour
     public VideoPlayer videoPlayer;
     public VideoClip[] videoClips;
     public GameObject[] quizs;
-
+    public int selectedChapter = 0;
     public void HideShow()
     {
           VideoPanel.SetActive(!VideoPanel.activeInHierarchy);
     }
-    public void QuizHideShow(int i)
+    public void QuizHideShow()
     {
+        quizs[selectedChapter].SetActive(true);
+        if (selectedChapter > 0)
+        {
+            Screen.orientation = ScreenOrientation.Portrait;
+        }
 
-        GameObject quizz = Instantiate(quizs[i]);
+        /*GameObject quizz = Instantiate(quizs[i]);
         quizz.SetActive(true);
 
-            Screen.orientation = ScreenOrientation.Portrait;
+            Screen.orientation = ScreenOrientation.Portrait;*/
+
         //quizs[i].SetActive(!quizs[i].activeInHierarchy);
     }
 

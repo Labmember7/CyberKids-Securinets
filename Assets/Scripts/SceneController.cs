@@ -10,33 +10,34 @@ public class SceneController : MonoBehaviour
 {
     [SerializeField]
     private ScreenOrientation screenOrientation ;
-    float t = 0;
-    float x = 0f;
-    public float timeBeforeZoom = 0.5f;
-    static Vector2 dest = new Vector2(-5.14f, -2.02f);
-    Camera cam;
+   // float t = 0;
+   // float x = 0f;
+   // public float timeBeforeZoom = 0.5f;
+   // static Vector2 dest = new Vector2(-5.14f, -2.02f);
+    //Camera cam;
     // public Font font;
+
     void OnEnable()
     {
         if (gameObject.tag == "UI")
             GameObject.FindObjectOfType<PlayfabManager>().GetLeaderboard();
+
     }
     void Start()
     {
-
         Screen.orientation = screenOrientation;
-        cam = Camera.main;
-        if (cam)
-        {
-            x = cam.fieldOfView;
-        }
-       
     }
-
-
-
-
-
+    public void UpdateScreenOrientation()
+    {
+        if (Screen.orientation.Equals(ScreenOrientation.Portrait))
+        {
+            Screen.orientation = ScreenOrientation.Landscape;
+        }
+        else
+        {
+            Screen.orientation = ScreenOrientation.Portrait;
+        }
+    }
 
     public void EmitParticles(GameObject particles)
     {
@@ -74,18 +75,8 @@ public class SceneController : MonoBehaviour
     {
         Application.Quit();
     }
-    public void UpdateScreenOrientation()
-    {
-        if (Screen.orientation.Equals(ScreenOrientation.Portrait))
-        {
-            Screen.orientation = ScreenOrientation.Landscape;
-        }
-        else
-        {
-            Screen.orientation = ScreenOrientation.Portrait;
-        }
-    }
-    public void Zoom()
+   
+   /* public void Zoom()
     {
         StartCoroutine(startZoom());
     }
@@ -110,7 +101,7 @@ public class SceneController : MonoBehaviour
         yield return null;
 
 
-    }
+    }*/
 
 
 }

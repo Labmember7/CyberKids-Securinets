@@ -50,7 +50,6 @@ public class WordSearch : MonoBehaviour {
         instance = this;
        // UnityEngine.Random.InitState(7);
 
-
     }
 
     void Start() {
