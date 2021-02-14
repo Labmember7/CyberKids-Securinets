@@ -9,7 +9,14 @@ public class SoundManager : MonoBehaviour
     public AudioMixer audioMixer;
     public Slider sfxSlider;
     public Slider musicSlider;
-
+    public bool deleteAllPlayerPrefs = false;
+    void Awake()
+    {
+        if (deleteAllPlayerPrefs)
+        {
+             PlayerPrefs.DeleteAll();
+        }
+    }
     public void Start()
     {
         GetVolumePrefs();

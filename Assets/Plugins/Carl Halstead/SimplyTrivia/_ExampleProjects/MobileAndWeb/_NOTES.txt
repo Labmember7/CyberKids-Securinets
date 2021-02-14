@@ -1,2 +1,0 @@
-This example application is designed to be played in a 9:16 aspect ratio.
-This is commonly used in mobile phones and can also be used for web games.

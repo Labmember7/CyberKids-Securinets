@@ -22,7 +22,7 @@ public class ScoreManager : MonoBehaviour
             kingdomButton.FixLangAppearance("fr");
         }
     }
-    void GetScore()
+    public void GetScore()
     {
         score = PlayerPrefs.GetInt("score");
     }

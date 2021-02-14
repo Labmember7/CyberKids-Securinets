@@ -1,8 +1,0 @@
-This folder (WebGLTemplates) should go into the root of the assets
-folder when you would like to use these templates. 
-
-However, for the reason of uploading them with the asset, 
-they will be located within a sub-folder. 
-
-This does not work and will not appear in the player settings. 
-It has to be moved to the root
