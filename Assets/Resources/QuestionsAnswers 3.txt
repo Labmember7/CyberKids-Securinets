@@ -1,0 +1,4 @@
+Quelle est l'instrument responsable à l'envoi et la récéption des messages?|Ordinateur ( false ) |Antenne ( true ) |Camera ( false )
+La transmission d’un message se fait d’un smartphone vers :|Serveur ( true ) |Bateau ( false ) |Le ciel ( false )
+Le message envoyé est transmis sous la forme de:|Paquet ( false ) |Onde Electromagnétique ( true ) |Courrier ( false )
+Quelle est l'instrument responsable à l'envoi et la récéption des messages!?|Ordinateur ( false ) |Antenne ( true ) |Camera ( false )
