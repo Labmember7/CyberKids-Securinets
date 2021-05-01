@@ -1,4 +1,4 @@
-Le message envoyé est transmis sous la forme de:|Paquet ( false ) |Onde Electromagnétique ( true ) |Courrier ( false )
-La transmission d’un message se fait d’un smartphone vers :|Serveur ( true ) |Bateau ( false ) |Le ciel ( false )
-Quelle est l'instrument responsable à l'envoi et la récéption des messages?|Ordinateur ( false ) |Antenne ( true ) |Camera ( false )
-Quelle est l'instrument responsable à l'envoi et la récéption des messages!?|Ordinateur ( false ) |Antenne ( true ) |Camera ( false )
+Comment s'appelle la méthode qui permet de protéger nos données personnelles:|Cryptographie ( true ) |Géographie ( false ) |Physiologie ( false ) 
+Le mot "AHMED" crypté avec la méthode de césar avec une clé égale à 1 devient :|BINFE ( true ) |BINFT ( false ) |BINFS ( false ) 
+Le mot "NET" crypté avec la méthode de césar avec une clé égale à 2 devient |PGA ( false ) |PGV ( true ) |PGK ( false ) 
+Comment s'appelle la méthode de cryptage utilisé dans les questions précédentes?|Thalès ( false ) |Platon ( false ) |César ( true )

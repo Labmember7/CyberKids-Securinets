@@ -38,7 +38,10 @@ public class SceneController : MonoBehaviour
             Screen.orientation = ScreenOrientation.Portrait;
         }
     }
-
+    public void OpenLink()
+    {
+        Application.OpenURL("https://www.canva.com/design/DAEXRO7g540/27OwnYlJUv59NpqN3FanMw/view?utm_content=DAEXRO7g540&utm_campaign=designshare&utm_medium=link&utm_source=publishpresent#6");
+    }
     public void EmitParticles(GameObject particles)
     {
 

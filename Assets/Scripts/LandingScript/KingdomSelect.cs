@@ -14,6 +14,7 @@ public class KingdomSelect : MonoBehaviour {
     public GameObject kingdomButtonPrefab;
     public Transform modelTransform;
     public Transform kingdomButtonsContainer;
+    public GameObject cameraGameObject;
 
     [Space]
 
@@ -61,7 +62,7 @@ public class KingdomSelect : MonoBehaviour {
 
     public void LookAtKingdom(Kingdom k)
     {
-        Transform cameraParent = Camera.main.transform.parent;
+        Transform cameraParent = cameraGameObject.transform.parent;
         Transform cameraPivot = cameraParent.parent;
 
         cameraParent.DOLocalRotate(new Vector3(k.y, 0, 0), lookDuration, RotateMode.Fast).SetEase(lookEase);

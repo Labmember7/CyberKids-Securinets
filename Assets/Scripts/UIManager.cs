@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     public TextAsset[] quizQuestions;
     private int[] numberOfTries = new int[4];
     public int selectedChapter = 0;
+    
     public void HideShow()
     {
           VideoPanel.SetActive(!VideoPanel.activeInHierarchy);

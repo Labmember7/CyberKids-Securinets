@@ -9,6 +9,7 @@ public class QuizzManager : MonoBehaviour
 {
     private List <GameObject> questions = new List<GameObject>();
     public Color correctColor;
+    public Color wrongColor;
     public TextAsset questionsPool;
     private ColorBlock theColor;
     public Text scoreText;
@@ -23,7 +24,8 @@ public class QuizzManager : MonoBehaviour
     void Start()
     {
         foreach (Button b in FindObjectsOfType<Button>())
-        {
+        { 
+            if (b.transform.root.tag == "Respawn") continue;
             b.gameObject.GetComponent<ButtonScript>().onInteract.AddListener(() => {
                 GoNextQuestion(b.gameObject);
                 });
@@ -35,7 +37,7 @@ public class QuizzManager : MonoBehaviour
         numberOfTries = Resources.FindObjectsOfTypeAll<UIManager>()[0].GetActualQuizTries();
         // Debug.Log("Quiz 2 numberOfTries = " + numberOfTries);
         ReadQuestionsFromFile();
-
+       // Debug.Log(correctAnswers);
     }
 
     public void UpdateScore()
@@ -75,20 +77,41 @@ public class QuizzManager : MonoBehaviour
         Resources.FindObjectsOfTypeAll<UIManager>()[0].SetActualQuizTries();
 
     }
+    string[] lines;
+    int index = 0;
+    Dictionary<string, string> questionAnswer = new Dictionary<string, string>();
+    Dictionary<string, string> quizzQuestionsServer = new Dictionary<string, string>();
     void ReadQuestionsFromFile()
     {
-        Dictionary<string, string> questionAnswer = new Dictionary<string, string>();
-        string[] lines = System.Text.Encoding.UTF8.GetString(questionsPool.bytes).Split('\n');
-        int index = 0;
-        //reading from the file
-        //Creating the dictionary containing questions as keys and responses as values
+        lines=null;
+        index = 0;
+        questionAnswer = null;
+        quizzQuestionsServer = null;
+
+        quizzQuestionsServer = FindObjectOfType<PlayfabManager>().quizzQuestionsServer;
+        if (quizzQuestionsServer.Count == 4)
+        {
+            foreach (KeyValuePair<string, string> kvp in quizzQuestionsServer)
+            {
+                if (questionsPool.name == kvp.Key)
+                {
+                    lines = kvp.Value.Split(';');
+                }
+            }
+        }
+        else
+        {
+            //reading from the file
+            lines = System.Text.Encoding.UTF8.GetString(questionsPool.bytes).Split('\n');
+        }
+
 
         foreach (string line in lines)
         {
             questionAnswer.Add(line.Split('|')[0], line.Substring(line.IndexOf('|') + 1));
         }
 
-        index = 0;
+        //Creating the dictionary containing questions as keys and responses as values
         KeyValuePair<string, string> keyValuePair;
         foreach (Text textArea in gameObject.GetComponentsInChildren<Text>())
         {
@@ -105,6 +128,11 @@ public class QuizzManager : MonoBehaviour
         int i = 0;
         foreach (Button response in gameObject.GetComponentsInChildren<Button>())
         {
+            theColor = response.colors;
+            theColor.pressedColor = wrongColor;
+            theColor.selectedColor = wrongColor;
+            response.colors = theColor;
+
             response.onClick.RemoveAllListeners();
             keyValuePair = questionAnswer.ElementAt(index);
             string[] responses = keyValuePair.Value.Split('|');
@@ -122,7 +150,6 @@ public class QuizzManager : MonoBehaviour
             else
             {
                 response.onClick.AddListener(() => {
-                    correctAnswers++;
                     FindObjectOfType<AudioSource>().PlayOneShot(fail);
                 });
             }

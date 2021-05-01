@@ -1,4 +1,4 @@
-La transmission d’un message se fait d’un smartphone vers :|Serveur ( true ) |Bateau ( false ) |Le ciel ( false )
-Quelle est l'instrument responsable à l'envoi et la récéption des messages?|Ordinateur ( false ) |Antenne ( true ) |Camera ( false )
-Le message envoyé est transmis sous la forme de:|Paquet ( false ) |Onde Electromagnétique ( true ) |Courrier ( false )
-Quelle est l'instrument responsable à l'envoi et la récéption des messages!?|Ordinateur ( false ) |Antenne ( true ) |Camera ( false )
+La transmission d’un message se fait d’un smartphone vers :|Un serveur ( true ) |Un bateau ( false ) |Le ciel ( false ) 
+Quel est l'instrument responsable de l'envoi et la récéption des messages?|Ordinateur ( false ) |Antenne ( true ) |Caméra ( false ) 
+Le message envoyé est transmis sous la forme de:|Paquet ( false ) |Onde électromagnétique ( true ) |Courrier ( false ) 
+La sécurité mobile permet de protéger :|La nature ( false ) |Les animaux ( false ) |Nos données ( true )

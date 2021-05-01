@@ -1,4 +1,4 @@
-La transmission d’un message se fait d’un smartphone vers :|Serveur ( true ) |Bateau ( false ) |Le ciel ( false )
-Quelle est l'instrument responsable à l'envoi et la récéption des messages?|Ordinateur ( false ) |Antenne ( true ) |Camera ( false )
-Le message envoyé est transmis sous la forme de:|Paquet ( false ) |Onde Electromagnétique ( true ) |Courrier ( false )
-Quelle est l'instrument responsable à l'envoi et la récéption des messages!?|Ordinateur ( false ) |Antenne ( true ) |Camera ( false )
+Si je reçois un message sur facebook contenant le lien suivant : http://www.faceeb00k.tn/: |Ne pas cliquer ( true ) |Cliquer sur le lien ( false ) |Bloquer cette personne ( true ) 
+Lorsqu'une application demande l'accès à votre localisation que faire?|Accepter ( false ) |Refuser ( true ) |Toujours accepter ( false ) 
+Le wifi public ouvert :|Est bien sécurisé ( false ) |N'est pas sécurisé ( true ) |Necessite un mot de passe ( false ) 
+Les liens dans les descriptions des videos youtube sont:|Toujours sécurisés ( false ) |Parfois dangereux ( true ) |Toujours https ( false )

@@ -5,12 +5,12 @@ using UnityEngine;
 public class FollowTarget : MonoBehaviour {
 
     public Transform target;
-
+    public Camera cameraGameObject;
     private void Update()
     {
         if (target != null)
         {
-            transform.position = Camera.main.WorldToScreenPoint(target.position);
+            transform.position = cameraGameObject.WorldToScreenPoint(target.position);
         }
     }
 }

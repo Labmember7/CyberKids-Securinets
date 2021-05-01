@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using PlayFab;
 using PlayFab.ClientModels;
-
+using System.IO;
+using UnityEditor;
 public class PlayfabManager : MonoBehaviour
 {
     public Avatar avatar = new Avatar();
@@ -114,7 +115,8 @@ public class PlayfabManager : MonoBehaviour
         RememberMe();
         //Recover Avatar if the user have created one
         GetAvatar();
-
+        //Update Questions
+        GetQuestions();
     }
     void OnLoginFail(PlayFabError error)
     {
@@ -326,8 +328,54 @@ public class PlayfabManager : MonoBehaviour
 
         //Debug.Log(result.AccountInfo.TitleInfo.DisplayName + "  "+ this.gameObject.tag);
     }
+    // public List<TextAsset> qaFiles;
+    public GameObject debug;
+    public Dictionary<string, string> quizzQuestionsServer;
+    public void GetQuestions()
+    {
+        List<string> questions = new List<string>();
+        questions.Add("QuestionsAnswers 1");
+        questions.Add("QuestionsAnswers 2");
+        questions.Add("QuestionsAnswers 3");
+        questions.Add("QuestionsAnswers 4");
+        PlayFabClientAPI.GetTitleData(new GetTitleDataRequest()
+        {
+            Keys = questions
+    
+        }, result => {
+            try
+            {
+                quizzQuestionsServer = result.Data;
+                Debug.Log("nb_questions received"+result.Data.Count);
+                int i = 0;
+                foreach (KeyValuePair<string, string> kvp in result.Data)
+                {
 
+                    // Resources.      
+                    debug.GetComponent<Text>().text = "";
+                    //string path = Directory.GetFiles(Application.persistentDataPath+"/", questions[i]+".txt")[0];
+                   /* if (i == 0)
+                    {
+                        Debug.Log(File.Exists(path) + path);
+                        debug.GetComponent<Text>().text = File.Exists(path) + path + '\n';
+                    }*/
+                    //Write some text to the test.txt file
+                    //File.WriteAllText(path, kvp.Value.Replace(';', '\n'));
+                    debug.GetComponent<Text>().text += "Done!!!!!!";
 
+                    i++;
+                }
+            }
+            catch (PlayFabException e)
+            {
+                Debug.Log(e);
+                debug.GetComponent<Text>().text ="Error";
+            }
+
+        },
+        error => Debug.Log(error.GenerateErrorReport()));
+
+    }
 }
 public class Avatar
 {

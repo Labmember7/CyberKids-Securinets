@@ -45,8 +45,15 @@ public class WordSearch : MonoBehaviour {
 			return instance;
 		}
     }
-
-	void Awake() {
+    public void OnEnable()
+    {
+        if(backgroundObject)
+        backgroundObject.SetActive(true);
+    }public void OnDisable()
+    {
+        backgroundObject.SetActive(false);
+    }
+    void Awake() {
         instance = this;
        // UnityEngine.Random.InitState(7);
 

@@ -1,4 +1,4 @@
-Quelle est l'instrument responsable à l'envoi et la récéption des messages?|Ordinateur ( false ) |Antenne ( true ) |Camera ( false )
-La transmission d’un message se fait d’un smartphone vers :|Serveur ( true ) |Bateau ( false ) |Le ciel ( false )
-Le message envoyé est transmis sous la forme de:|Paquet ( false ) |Onde Electromagnétique ( true ) |Courrier ( false )
-Quelle est l'instrument responsable à l'envoi et la récéption des messages!?|Ordinateur ( false ) |Antenne ( true ) |Camera ( false )
+L’antivirus permet d'interdire l’installation des applications?|Malveillantes ( true ) |Fidèles ( false ) |Mobiles ( false ) 
+Installer les mises à jour permet de ........ nos smartphones:|Détruire ( false ) |Protéger ( true ) |Perturber ( false ) 
+Lequel de ces mots de passe est le plus puissant:|exemple ( false ) |123456789 ( false ) |Exemple@123456 ( true ) 
+Parmi ces sites web lequel n'est pas sécuriser?|https://www.google.tn/ ( false ) |http://www.free-gameS.tn/ ( true ) |https://www.youtube.tn/ ( false )
